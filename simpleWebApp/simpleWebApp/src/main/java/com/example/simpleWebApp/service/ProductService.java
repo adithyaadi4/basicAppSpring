@@ -1,6 +1,8 @@
 package com.example.simpleWebApp.service;
 
 import com.example.simpleWebApp.model.Product;
+import com.example.simpleWebApp.repository.ProductRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -9,13 +11,14 @@ import java.util.List;
 
 @Service
 public class ProductService {
-    List<Product> products= new ArrayList<>(Arrays.asList(new Product(101,"iphone",50000),new Product(102,"lenovo",60000)));
-    public List<Product> getProducts(){
-return products;
+    @Autowired
+    private ProductRepo productRepo;
+//    List<Product> products= new ArrayList<>(Arrays.asList(new Product(101,"iphone",50000),new Product(102,"lenovo",60000)));
+    public List<Product> getProducts() {
+        return productRepo.findAll();
     }
-
    public Product getProductById(int prodId) {
-       return products.stream().filter(p->p.getProdId()==prodId).findFirst().get();
+       return productRepo.findById(prodId).orElse(new Product(106,"apple",90000));
    }
    /*public Product getProductById(int prodId){
        for (Product p : products) {
@@ -26,25 +29,14 @@ return products;
         return null; // return null if not found
    }*/
 public void addProduct(Product prod){
-    products.add(prod);
+    productRepo.save(prod);
 }
 
 public void updateProduct(Product prod){
-    int index=0;
-    for(int i=0;i< products.size();i++){
-        if(products.get(i).getProdId()== prod.getProdId()){
-            index=i;
-        }
-products.set(index,prod);
-    }
+    productRepo.save(prod);
 }
 
     public void deleteProduct(int prodId) {
-        int index=0;
-        for(int i=0;i< products.size();i++){
-            if(products.get(i).getProdId()== prodId){
-                index=i;
-            }
-            products.remove(index);
+  productRepo.deleteById(prodId);
+}
     }
-}}

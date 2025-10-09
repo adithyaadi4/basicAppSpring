@@ -1,13 +1,19 @@
 package com.example.simpleWebApp.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
-@Data
+@Component
+@Entity
 public class Product {
-    private Integer prodId;   // use Integer instead of int
+    @Id
+    private int prodId;   // use Integer instead of int
     private String prodName;
-    private Integer price;
+    private int price;
+    public Product() {}
 
     public int getProdId() {
         return prodId;
