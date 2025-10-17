@@ -1,6 +1,6 @@
 package com.example.simpleWebApp.config;
 
-import com.example.simpleWebApp.service.CustomerUserDetailsService;
+import com.example.simpleWebApp.service.CustomUserDetailsService;
 import com.example.simpleWebApp.service.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,30 +23,23 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     @Autowired
-    private CustomerUserDetailsService userDetailsService;
+    private CustomUserDetailsService userDetailsService;
     @Autowired
     private JWTService jwtService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // 1. Disable CSRF (Good for stateless APIs)
+
                 .csrf(csrf -> csrf.disable())
-                // Required for JWT to disable session management
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-
-                // 2. Disable default form login and basic authentication
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
-
-                // 3. Configure authorization rules
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints
                         .requestMatchers("/auth/login", "/auth/register").permitAll()
-
-                        // Allow preflight OPTIONS requests for CORS
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                         // Public HTML/Resource endpoints (if needed)
@@ -63,7 +56,7 @@ public class SecurityConfig {
                         // Any other request requires authentication
                         .anyRequest().authenticated()
                 )
-                // 4. Add JWT filter before UsernamePasswordAuthenticationFilter
+                // JWT filter before UsernamePasswordAuthenticationFilter
                 .addFilterBefore(new JwtAuthenticationFilter(jwtService, userDetailsService), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

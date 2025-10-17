@@ -29,13 +29,16 @@ public class AuthService {
         if (userRepository.findByUsername(username).isPresent()) {
             throw new RuntimeException("Username already exists");
         }
-
+        if (role == null || role.isEmpty()) {
+            role = "USER";
+        }
         User.Role userRole;
         try {
             userRole = User.Role.valueOf(role.toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new RuntimeException("Invalid role. Must be USER or ADMIN");
         }
+
 
         User user = new User();
         user.setUsername(username);

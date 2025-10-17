@@ -17,5 +17,4 @@ public class Product {
     private Integer prodId;   // use Integer instead of int
     private String prodName;
     private Integer price;
-
 }

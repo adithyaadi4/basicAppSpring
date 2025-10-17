@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users1")
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
@@ -31,7 +31,7 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role;
+    private Role role=Role.USER;
 
     @Column(nullable = false)
     private boolean enabled = true;
