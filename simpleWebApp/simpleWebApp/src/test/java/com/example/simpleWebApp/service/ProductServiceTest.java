@@ -38,7 +38,7 @@ class ProductServiceTest {
         List<Product> products = productService.getProducts();
 
         assertEquals(2, products.size());
-        assertEquals("Laptop", products.get(0).getProdName());
+        assertEquals("Laptop", products.get(0).getProdname());
         verify(productRepo, times(1)).findAll();
     }
 
@@ -46,7 +46,7 @@ class ProductServiceTest {
     void testGetProductById_WhenFound() {
         when(productRepo.findById(101)).thenReturn(Optional.of(product1));
         Product found = productService.getProductById(101);
-        assertEquals("Laptop", found.getProdName());
+        assertEquals("Laptop", found.getProdname());
         verify(productRepo, times(1)).findById(101);
     }
 
@@ -54,7 +54,7 @@ class ProductServiceTest {
     void testGetProductById_WhenNotFound() {
         when(productRepo.findById(999)).thenReturn(Optional.empty());
         Product result = productService.getProductById(999);
-        assertEquals("apple", result.getProdName());
+        assertEquals("apple", result.getProdname());
     }
 
     @Test

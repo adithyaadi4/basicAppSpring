@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "product")
 public class Product {
     @Id
-    private Integer prodId;   // use Integer instead of int
-    private String prodName;
+    private Integer prodid;   // use Integer instead of int
+    private String prodname;
     private Integer price;
 }
